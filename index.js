@@ -1,41 +1,47 @@
 'use strict';
 
-function getDogImage(num) {
-  if (num < 1 || num > 50 || num === '')
-  {
-    alert('please enter a number between 1 and 50');
+function getDogImage(breed) {
+  
+  try {
+    let breedURL = `https://dog.ceo/api/breed/${breed}/images/random`;
+    fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
+      .then(response => response.json())
+      .then(responseJson => {
+        displayImages(responseJson.message);
+        console.log(responseJson);
+      });
   }
-  else{
-    let i = 0;
-    while(i < num){
-      fetch('https://dog.ceo/api/breeds/image/random')
-        .then(response => response.json())
-        .then(responseJson => {
-          displayImages(responseJson.message);
-        });
-      i++;
-    }
-  }
-}
 
+  catch(err) {
+    throw alert('This is not a breed');
+  }
+
+}
+  
+//
 function handleSubmit(){(
-  $('.images').submit(function(event){
+  // $('#userRequest').submit(function(event){
+  $('.breed').on('click', '#userRequest', event => {
+
     event.preventDefault();
-    console.log('Im listening');
-    let num = $('#numberOfDogs').val();
-    getDogImage(num);
+
+    let breed = $('#breed-of-dogs').val();
+    getDogImage(breed);
   }));
 }
 
 function renderImages(html) {
-  $('div').append(`${html}`);
+  $('div').html(`${html}`);
 }
-
 
 function displayImages(images){
   const html = `<img src =${images}>`;
   renderImages(html);
 }
+
+
+
+
 
 
 
