@@ -1,22 +1,21 @@
 'use strict';
 
 function getDogImage(breed) {
-  
-  try {
-    let breedURL = `https://dog.ceo/api/breed/${breed}/images/random`;
-    fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
-      .then(response => response.json())
-      .then(responseJson => {
+
+  fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
+    .then(response => response.json())
+    .then(responseJson => {
+    
+      if(responseJson.status === 'Breed not found (master breed does not exist)'){
+        alert('this is not a breed');
+      }
+
+      else{
         displayImages(responseJson.message);
-        console.log(responseJson);
-      });
-  }
-
-  catch(err) {
-    throw alert('This is not a breed');
-  }
-
+      }
+    });
 }
+
   
 //
 function handleSubmit(){(
